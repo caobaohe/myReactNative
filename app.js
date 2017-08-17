@@ -8,7 +8,7 @@ import {
     Button,
     DrawerLayoutAndroid
 } from 'react-native';
-import Hello from './hello';
+import {Hello} from './hello';
 
 export default class App extends Component {
     constructor(props) {
