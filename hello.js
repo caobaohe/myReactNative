@@ -9,7 +9,7 @@ import {
     TouchableNativeFeedback,
     TouchableOpacity
 } from 'react-native';
-import {TabNavigator, StackNavigator} from "react-navigation";
+import {TabNavigator, StackNavigator, DrawerNavigator} from "react-navigation";
 
 import Guide from './app/guide';
 import GuideDetail from './app/guideDetail';
@@ -51,6 +51,14 @@ class OtherPage extends React.Component {
                     alert('a')
                 )}>
                     <Image
+                        style={{width: 50, height: 50}}
+                        source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+                    />
+                </TouchableHighlight>
+                <TouchableHighlight activeOpacity={0.6} underlayColor={'red'} onPress={() => (
+                    alert('a')
+                )}>
+                    <Image
                         style={{width: 40, height: 40}}
                         source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
                     />
@@ -72,6 +80,26 @@ class OtherPage extends React.Component {
                 <Button
                     onPress={() => navigate('Chat', {user: 'Sybil'})}
                     title="点击跳转"/>
+            </View>
+        )
+    }
+}
+
+class DrawerPage extends React.Component {
+
+    static navigationOptions = {
+        title: 'DrawerPage',
+        headerMode: 'none'
+    }
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <View>
+                <Text style={{margin: 22, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
             </View>
         )
     }
@@ -123,11 +151,13 @@ const MainScreenNavigator = TabNavigator({
         }
     }
 }, {
-    initialRouteName: 'Api',//第一次加载时初始标签路由的routeName
+    initialRouteName: 'Guide',//第一次加载时初始标签路由的routeName
     tabBarPosition: 'bottom',//标签栏的位置可以是或'top''bottom'
-    swipeEnabled: true,//是否允许在标签之间进行滑动
+    swipeEnabled: false,//是否允许在标签之间进行滑动
     tabBarOptions: {
-        activeTintColor: '#FFF',
+        animationEnabled: true,
+        activeTintColor: '#673AB7',
+        inactiveTintColor: '#aaaaaa',
         indicatorStyle: {//标签指示器的样式对象（选项卡底部的行）
             backgroundColor: '#673AB7',
             height: 0,
@@ -146,7 +176,8 @@ const MainScreenNavigator = TabNavigator({
 
         },
         style: {//标签栏的样式对象
-            backgroundColor: '#673AB7',
+            // backgroundColor: '#673AB7',
+            backgroundColor: '#eeeeee',
             // borderTopWidth: 1,
             // borderColor: '#673AB7',
             // opacity: 1.0,
@@ -156,9 +187,21 @@ const MainScreenNavigator = TabNavigator({
     },
 });
 
+
+const MyApp = DrawerNavigator({
+    MainScreenNavigator: {
+        screen: MainScreenNavigator,
+    }
+}, {
+    drawerWidth: 200,
+    drawerPosition: 'right',
+    contentComponent: DrawerPage
+})
+
 export const Hello = StackNavigator({
     Home: {
-        screen: MainScreenNavigator,
+        // screen: MainScreenNavigator,
+        screen: MyApp,
         navigationOptions: {}
     },
     GuideDetail: {
@@ -172,6 +215,7 @@ export const Hello = StackNavigator({
         headerStyle: {
             // elevation: 0,//Android去掉导航条底部阴影
             // shadowOpacity: 0,//IOS去掉导航条底部阴影
+            // backgroundColor: '#673AB7',
             backgroundColor: '#673AB7',
         },
         headerTitleStyle: {
